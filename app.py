@@ -55,48 +55,34 @@ def logout():
 # ---------------------------
 # USER DASHBOARD
 # ---------------------------
-# ---------------------------
-# USER DASHBOARD (UPDATED WITH MILESTONE 3)
-# ---------------------------
 def user_dashboard():
-    
     df = pd.read_csv("processed_student_data.csv")
     df.columns = df.columns.str.lower()
-
     st.sidebar.title("Navigation")
-
     page = st.sidebar.radio(
         "Menu",
         ["Dashboard", "Log Study Session", "Analysis"]
     )
-
     st.sidebar.button("Logout", on_click=logout)
-
     st.title("📊 Student Dashboard")
-
     # ===============================
     # DASHBOARD PAGE
     # ===============================
     if page == "Dashboard":
-
         user_id = st.selectbox(
             "Enter Your Student ID",
             sorted(df["student_id"].unique())
         )
-
         sessions = st.slider(
             "Study Sessions Per Day",
             1,
             5,
             2
         )
-
         if "cluster" not in df.columns:
             st.warning("Admin must run clustering first.")
             return
-
         if st.button("Generate Recommendation"):
-
             user_data = df[df["student_id"] == int(user_id)]
   
             if user_data.empty:
